@@ -1,0 +1,29 @@
+body {
+  background-color: #eee;
+  color:#444;
+}
+
+.fa {
+  color: blue;
+}
+
+#userList {
+  display:none;
+}
+
+.form-control{
+  width: 15%;
+  margin: 0 auto 15px auto;	
+}
+
+#loader {
+  position:absolute;
+  z-index:2;
+  width:100%;
+  text-align:center;
+  top:40%;
+}
+
+.input-group-addon{
+  cursor: pointer;
+}

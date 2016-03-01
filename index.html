@@ -1,0 +1,66 @@
+<!doctype html>
+<html ng-app="myChat">
+    <head>
+    <meta charset="utf-8">
+    <title>chat</title>
+    <meta name="viewport" content="width=device-width">           
+    <link href="libs/bootstrap.css" rel="stylesheet"/>
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>       
+
+      <i class="fa fa-spin fa-refresh fa-5x" id="loader"></i>
+      <div class="container" ng-controller="ChatController"> 
+        
+        <hr>
+        <div class="row" id="userList">
+          <div ng-repeat="user in users | limitTo: 10" class="col-sm-12">
+            
+            <div class="row">
+              <div class="col-xs-2" ng-class-odd="'col-xs-push-10'">
+                <a href=""><img title="{{user.user}}" src="{{user.picture}}" class="img-thumbnail img-responsive img-circle" ng-class-even="'pull-right'" ng-class-odd="'pull-left'" style="width:70px;"></a>
+                
+              </div>  
+              <div class="col-xs-10" ng-class-odd="'col-xs-pull-2'">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    {{user.msg || "your message"}}<br>
+                    <span class="label label-info">{{ user.timestamp || time | date:'h:mma' }}</span>
+                  </div>
+                </div>
+              </div><!--/col-->
+            </div><!--/row-->
+          
+          </div><!--/col-->
+        
+        </div><!--/row-->
+        
+        <div class="row">
+        
+          <hr>
+          
+          <h2 class="text-center">Got something to say?</h2>
+          
+          <div class="col-sm-12">
+            <div>
+              <input class="form-control input-large" type="text" ng-model="userName" placeholder="User name" id="userName">
+            </div>
+            <div class="input-group">
+              <input class="form-control input-large" type="text" ng-model="textMessage" placeholder="Add to the conversation" id="inputText">
+              <span class="input-group-addon" ng-click="doPost(textMessage, userName)">Send</span>           
+            </div>                 
+          </div>
+              
+          <hr>
+        
+        </div>
+       
+      </div><!--/container-->
+
+    <script src="libs/angular.js"></script>   
+    <script src="libs/jquery.min.js"></script>     
+    <script src="scripts/index.module.js"></script>
+    <script src="scripts/index.controller.js"></script>
+    <script src="scripts/index.service.js"></script>    
+    </body>
+</html>
