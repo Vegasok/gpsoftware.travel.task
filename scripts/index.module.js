@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('myChat', []);
+    .module('myChat', ['ngMockE2E']);
 
 }());

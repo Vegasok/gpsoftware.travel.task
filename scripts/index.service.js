@@ -3,40 +3,25 @@
 
   angular
     .module('myChat')
-    .service('chatService', chatService)
-    .service('chatServiceMock', chatServiceMock)
-    .config(function ($provide) {
-      $provide.decorator('chatService', function ($delegate, chatServiceMock) {
-        $delegate = chatServiceMock;
-        return $delegate;
+    .run(function($httpBackend, $rootScope) {
+
+      var root = $rootScope
+      // fake original data to change
+      var users = [
+        { "user": "Olga", "msg": "Hi!", "timestamp": "1456651674675", "picture":"http://api.randomuser.me/portraits/women/61.jpg"},
+        { "user": "Anton", "msg": "Hi-hi!", "timestamp": "1456651692612", "picture":"http://api.randomuser.me/portraits/men/95.jpg"},
+        { "user": "Olga", "msg": "How are you?", "timestamp": "1456651891409", "picture":"http://api.randomuser.me/portraits/women/61.jpg"}
+      ];
+
+      $httpBackend.whenGET('/allList').respond(function(method,url,data) {
+        return [200, users, {}];
       });
-    });
 
+      $httpBackend.when('GET', /\/addMsg(.*)/).respond(function(method, url, data, headers, params){
+        users.push(root.data);
+        return [200, {}, {}];
+      });
 
-    function chatServiceMock($http) {
-      this.getMessages = function () {
-        return $http.get('mock/chat.mock.json');
-      };
-
-      this.sendMessage = function (textMessage, timeStamp, userName) {
-        $http.get('/api/message/send', {
-            params:  {timestamp: timeStamp, message: textMessage, user: userName}
-          }
-        );
-      };
-    }
-
-
-    function chatService($http) {
-      this.getMessages = function () {
-        return $http.get('/api/message/list?timestamp=1456651674675');
-      };
-
-      this.sendMessage = function (textMessage) {
-        $http.get('/api/message/send', {
-          params:  {message: 'textMessage', timestamp: 'timeStamp'}
-        });
-      };
-    }
+    })
 
 }());

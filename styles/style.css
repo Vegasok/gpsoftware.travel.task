@@ -3,8 +3,12 @@ body {
   color:#444;
 }
 
+.nameChat{
+  text-align: center;
+}
+
 .fa {
-  color: blue;
+  color: black;
 }
 
 #userList {
@@ -22,6 +26,10 @@ body {
   width:100%;
   text-align:center;
   top:40%;
+}
+
+.input-group{
+  margin-bottom: 50px;
 }
 
 .input-group-addon{

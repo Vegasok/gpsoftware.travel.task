@@ -10,47 +10,50 @@ function randomDate(start, end) {
     .controller('ChatController', ChatController);
 
 
-  function ChatController(chatService, $scope, $http){
+  function ChatController($rootScope, $scope, $http){
 
-    chatService.getMessages().then(function(response){
-        $scope.users = response.data;
+    $scope.allList = function() {
+      $http({
+        url: '/allList',
+        method: 'GET'
+      })
+      .success(function(data) {
+        $scope.users = data;
         $('#loader').hide();
-        $('#userList').show();      
-    });      
+        $('#userList').show();
+      });
+    }
 
-    $scope.doPost = function(textMessage, userName) {      
-      console.log(textMessage);
-      chatService.sendMessage(textMessage, Date.now(), userName);      
-    }    
-    
-  /*$scope.doPost = function() {
-  
-    $http.get('login.mock.json').success(function(response) {
-      
-      var newUser = response.data[0];
-      newUser.msg = $('#inputText').val();
-      newUser.timestamp = new Date();
-      $scope.users.push(newUser);
-   
-    }).error(function(data, status) {
-      
-      alert('get data error!');
-      
-    });
-    
-  }*/
+    $scope.addMsg = function(textMessage, userName) {
+      var dataToAdd = {
+        user: userName || 'UNKNOWN',
+        msg: textMessage || 'Default msg',
+        timestamp: Date.now(),
+        picture: 'http://api.randomuser.me/portraits/men/54.jpg'
+      }
 
-	$scope.time = Date.now();
+      $rootScope.data = dataToAdd;
+
+      $http({
+        url: '/addMsg',
+        method: 'GET',
+        params: dataToAdd
+      })
+      .success(function() {
+        $scope.allList();
+      });
+
+    }
+
+    $scope.allList();
 
     $scope.randomDate = function() {
-      var start = new Date(2016,2,1);
-      var end = new Date();
-      return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    }      
-   
-  } 
+          var start = new Date(2016,2,1);
+          var end = new Date();
+          return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        } 
 
 
-
+  }
 
 }());
